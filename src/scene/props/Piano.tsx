@@ -1,4 +1,4 @@
-import { PALETTE } from '../materials'
+import { PALETTE } from '../../../config'
 
 interface PianoProps {
   readonly position: readonly [number, number, number]
@@ -7,7 +7,7 @@ interface PianoProps {
 
 /** Pian vertical simplificat: corp, claviatura, capac, picioare. */
 export const Piano = ({ position, rotationY = 0 }: PianoProps) => (
-  <group position={position as [number, number, number]} rotation={[0, rotationY, 0]}>
+  <group position={position} rotation={[0, rotationY, 0]}>
     <mesh position={[0, 0.62, 0]} castShadow>
       <boxGeometry args={[1.5, 1.24, 0.62]} />
       <meshStandardMaterial color={PALETTE.pianoBody} roughness={0.35} metalness={0.1} />

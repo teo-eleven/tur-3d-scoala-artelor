@@ -1,7 +1,10 @@
 import Lenis from 'lenis'
+import { APP_CONFIG } from '../../config'
+
+const { lengthVh, lerp, wheelMultiplier, touchMultiplier, jumpDurationSeconds } = APP_CONFIG.scroll
 
 /** Cate ecrane de scroll are turul. Mai mult = deplasare mai lenta. */
-export const SCROLL_LENGTH_VH = 1400
+export const SCROLL_LENGTH_VH = lengthVh
 
 const clamp01 = (value: number) => Math.min(Math.max(value, 0), 1)
 
@@ -23,7 +26,7 @@ const prefersReducedMotion = () =>
 /** Porneste scroll-ul fluid. Returneaza functia de curatare. */
 export const initScroll = (): (() => void) => {
   if (!prefersReducedMotion()) {
-    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, touchMultiplier: 1.4 })
+    lenis = new Lenis({ lerp, wheelMultiplier, touchMultiplier })
   }
 
   let frame = 0
@@ -48,7 +51,7 @@ export const initScroll = (): (() => void) => {
 export const scrollToProgress = (progress: number) => {
   const top = clamp01(progress) * maxScroll()
   if (lenis) {
-    lenis.scrollTo(top, { duration: 1.6 })
+    lenis.scrollTo(top, { duration: jumpDurationSeconds })
     return
   }
   window.scrollTo({ top, behavior: 'smooth' })

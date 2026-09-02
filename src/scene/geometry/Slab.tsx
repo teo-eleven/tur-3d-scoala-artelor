@@ -1,4 +1,4 @@
-import { FLOOR_THICKNESS } from '../../data/layout'
+import { FLOOR_THICKNESS } from '../../../config'
 
 interface SlabProps {
   readonly center: readonly [number, number, number]
@@ -18,7 +18,7 @@ export const Slab = ({
   thickness = FLOOR_THICKNESS,
   roughness = 0.85,
 }: SlabProps) => (
-  <mesh position={center as [number, number, number]} receiveShadow castShadow>
+  <mesh position={center} receiveShadow castShadow>
     <boxGeometry args={[width, thickness, depth]} />
     <meshStandardMaterial color={color} roughness={roughness} />
   </mesh>

@@ -1,24 +1,23 @@
 import { CatmullRomCurve3, Vector3 } from 'three'
-import { WAYPOINTS } from '../data/waypoints'
-import type { RoomId } from '../data/instructors'
+import { APP_CONFIG, WAYPOINTS, type RoomId } from '../../config'
 
 const toVectors = (points: readonly (readonly [number, number, number])[]) =>
   points.map(([x, y, z]) => new Vector3(x, y, z))
 
-const CURVE_TENSION = 0.5
+const { curveTension } = APP_CONFIG.camera
 
 export const positionCurve = new CatmullRomCurve3(
   toVectors(WAYPOINTS.map((w) => w.pos)),
   false,
   'catmullrom',
-  CURVE_TENSION,
+  curveTension,
 )
 
 export const targetCurve = new CatmullRomCurve3(
   toVectors(WAYPOINTS.map((w) => w.look)),
   false,
   'catmullrom',
-  CURVE_TENSION,
+  curveTension,
 )
 
 /** t-ul de pe curba pentru un waypoint dat (curba e uniforma pe indici). */

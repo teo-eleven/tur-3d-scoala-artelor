@@ -1,24 +1,28 @@
+import { LIGHTING } from '../../config'
+
 interface LightingProps {
   /** Pe mobil coboram calitatea umbrelor. */
   readonly highQuality: boolean
 }
 
+const { hemisphere, ambient, sun } = LIGHTING
+
 /** Lumina generala: cer, soare si un fill cald pentru interior. */
 export const Lighting = ({ highQuality }: LightingProps) => (
   <>
-    <hemisphereLight args={['#cfe3f5', '#5d5648', 0.9]} />
-    <ambientLight intensity={0.35} color="#fff2e2" />
+    <hemisphereLight args={[hemisphere.sky, hemisphere.ground, hemisphere.intensity]} />
+    <ambientLight intensity={ambient.intensity} color={ambient.color} />
     <directionalLight
-      position={[18, 26, 20]}
-      intensity={2.1}
-      color="#ffe9c9"
+      position={sun.position}
+      intensity={sun.intensity}
+      color={sun.color}
       castShadow={highQuality}
-      shadow-mapSize={[1024, 1024]}
-      shadow-camera-left={-30}
-      shadow-camera-right={30}
-      shadow-camera-top={30}
-      shadow-camera-bottom={-30}
-      shadow-camera-far={90}
+      shadow-mapSize={sun.shadowMapSize}
+      shadow-camera-left={sun.shadowCamera.left}
+      shadow-camera-right={sun.shadowCamera.right}
+      shadow-camera-top={sun.shadowCamera.top}
+      shadow-camera-bottom={sun.shadowCamera.bottom}
+      shadow-camera-far={sun.shadowCamera.far}
     />
   </>
 )

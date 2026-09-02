@@ -5,12 +5,16 @@ import {
   DOOR_WIDTH,
   DOOR_Z,
   FLOOR_THICKNESS,
+  LIGHTING,
+  PALETTE,
+  PORTRAIT_Z,
+  PROPS,
   ROOM_HEIGHT,
   WING_Z_MAX,
   WING_Z_MIN,
   levelBaseY,
-} from '../data/layout'
-import type { Instructor } from '../data/instructors'
+  type Instructor,
+} from '../../config'
 import { Wall } from './geometry/Wall'
 import { Slab } from './geometry/Slab'
 import { Portrait } from './Portrait'
@@ -18,17 +22,17 @@ import { Piano } from './props/Piano'
 import { Bench } from './props/Bench'
 import { MicStand } from './props/MicStand'
 import { CeilingLamp } from './props/CeilingLamp'
-import { PALETTE } from './materials'
 
 const ROOM_DEPTH = WING_Z_MAX - WING_Z_MIN
 const ROOM_WIDTH = BUILDING_HALF_WIDTH - CORRIDOR_HALF_WIDTH
 const ROOM_CENTER_Z = (WING_Z_MIN + WING_Z_MAX) / 2
+const { pianoOffsetX, benchOffsetX, micOffsetX, pianoZ, micZ } = PROPS.furniture
 
 interface RoomProps {
   readonly instructor: Instructor
 }
 
-/** O sala completa: cutia, ferestrele, tabloul indrumatorului si mobilierul. */
+/** O sala completa: cutia, tabloul indrumatorului si mobilierul. */
 export const Room = ({ instructor }: RoomProps) => {
   const side = instructor.wing === 'west' ? -1 : 1
   const baseY = levelBaseY(instructor.level)
@@ -76,17 +80,16 @@ export const Room = ({ instructor }: RoomProps) => {
 
       <Portrait
         photo={instructor.photo}
-        position={[outerX - side * 0.16, baseY + 1.8, -3.2]}
+        position={[outerX - side * PROPS.portrait.wallGap, baseY + PROPS.portrait.mountY, PORTRAIT_Z]}
         rotationY={-side * (Math.PI / 2)}
         accent={instructor.accent}
       />
 
-      <Piano position={[centerX + side * 1.4, baseY, -0.4]} rotationY={-side * (Math.PI / 2)} />
-      <Bench position={[centerX + side * 0.4, baseY, -0.4]} rotationY={-side * (Math.PI / 2)} />
-      {isVoice && <MicStand position={[centerX - side * 0.6, baseY, -2.6]} />}
+      <Piano position={[centerX + side * pianoOffsetX, baseY, pianoZ]} rotationY={-side * (Math.PI / 2)} />
+      <Bench position={[centerX + side * benchOffsetX, baseY, pianoZ]} rotationY={-side * (Math.PI / 2)} />
+      {isVoice && <MicStand position={[centerX + side * micOffsetX, baseY, micZ]} />}
 
-      {/* Doua plafoniere, ca sala sa fie luminata uniform. */}
-      {[-4.6, 0.4].map((z) => (
+      {LIGHTING.roomLampsZ.map((z) => (
         <CeilingLamp key={z} position={[centerX, baseY + ROOM_HEIGHT, z]} />
       ))}
     </group>

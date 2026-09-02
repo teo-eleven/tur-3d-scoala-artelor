@@ -1,4 +1,4 @@
-import { WALL_THICKNESS } from '../../data/layout'
+import { WALL_THICKNESS } from '../../../config'
 import { wallSegments, type Opening } from './openings'
 
 type Axis = 'x' | 'z'

@@ -1,4 +1,4 @@
-import type { RoomId } from './instructors'
+import type { RoomId } from './instructors.config'
 
 export type Vec3 = readonly [number, number, number]
 
@@ -20,7 +20,8 @@ export interface Waypoint {
  * aceeasi felie de scroll, deci puncte apropiate = camera incetineste.
  * De aceea in dreptul salilor punctele sunt indesite (palier de citit).
  */
-export const WAYPOINTS: readonly Waypoint[] = [
+/** Tipat ca tuplu ne-vid: primul waypoint e pozitia de pornire a camerei. */
+export const WAYPOINTS: readonly [Waypoint, ...Waypoint[]] = [
   { label: 'exterior departe', pos: [0, 3.2, 30], look: [0, 2.4, 8] },
   { label: 'exterior aproape', pos: [0, 2.6, 17], look: [0, 2.2, 8] },
   { label: 'in fata intrarii', pos: [0, 1.75, 10.5], look: [0, 1.75, 4] },

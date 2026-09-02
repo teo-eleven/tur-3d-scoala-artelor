@@ -164,7 +164,7 @@ Ce e in picioare:
 - Camera legata de scroll (Lenis + doua curbe CatmullRom), 33 de waypoint-uri.
 - Cei 4 indrumatori: tablou in sala, card in overlay, bara laterala cu sarituri.
 - 11 teste unitare (geometria golurilor + traseul camerei), toate verzi.
-- `scripts/shots.mjs`: capturi automate din 12 puncte ale turului (Puppeteer).
+- `scripts/shots.mts`: capturi automate din 12 puncte ale turului (Puppeteer).
 
 Bug-uri gasite din capturi si reparate:
 - `line-height: 0.98` taia virgula de sub "S" din "Scoala" si o suprapunea
@@ -176,3 +176,24 @@ Bug-uri gasite din capturi si reparate:
 
 Ramas de facut, in ordine: F4 (materiale reale, dupa poze/video din cladire),
 F5 (mobil + performanta), F6 (E2E, SEO, deploy).
+
+### 2026-09-02 (2) — toate setarile mutate in `config/`
+
+Regula de lucru a lui Teo: nicio setare nu sta in cod, ca sa nu umble prin module
+pentru o valoare. Aplicata retroactiv pe tot proiectul:
+
+- folder nou `config/` cu `app.config.ts` (porturi, scroll, camera, calitate,
+  efecte, texte/meta, capturi), `building.config.ts` (dimensiuni, fatade, scara),
+  `scene.config.ts` (paleta, lumini, mobilier), `instructors.config.ts`,
+  `tour.config.ts` si barrel-ul `index.ts`.
+- `src/data/` si `src/scene/materials.ts` au disparut (mutate cu `git mv`,
+  istoricul e pastrat).
+- `vite.config.ts` citeste porturile din config si injecteaza title/description/og
+  in `index.html` prin `transformIndexHtml` — nu mai sunt scrise de mana in HTML.
+- `scripts/shots.mts` importa acelasi config (`.ts` direct, Node 24 face type
+  stripping nativ), deci capturile folosesc exact valorile aplicatiei.
+- Camera porneste din primul waypoint, nu dintr-o pozitie duplicata in `App.tsx`.
+
+Reparat pe drum: `strict` nu era pornit in niciunul dintre cele doua tsconfig-uri,
+iar `config/` si `tests/` nu erau incluse la typecheck. Acum sunt, si `tsc -b`
+trece curat.

@@ -1,4 +1,4 @@
-import { INSTRUCTORS, type RoomId } from '../data/instructors'
+import { INSTRUCTORS, type RoomId } from '../../config'
 import { ROOM_RANGES } from '../camera/path'
 import { scrollToProgress } from '../scroll/scrollController'
 

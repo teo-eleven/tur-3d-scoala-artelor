@@ -1,4 +1,4 @@
-import { INSTRUCTORS } from '../data/instructors'
+import { INSTRUCTORS } from '../../config'
 import { Shell } from './Shell'
 import { Corridor } from './Corridor'
 import { Stairs } from './Stairs'

@@ -1,13 +1,11 @@
-import { instructorById } from '../data/instructors'
+import { APP_CONFIG, instructorById } from '../../config'
 import { useTourStore } from '../store/tourStore'
 import { InstructorCard } from './InstructorCard'
 import { ProgressRail } from './ProgressRail'
 import { Intro } from './Intro'
 import { Outro } from './Outro'
 
-/** Pragurile la care apar titlul de inceput si finalul. */
-const INTRO_UNTIL = 0.055
-const OUTRO_FROM = 0.955
+const { introUntil, outroFrom } = APP_CONFIG.overlay
 
 /** Tot textul turului, in DOM (deci si accesibil, si indexabil). */
 export const Overlay = () => {
@@ -16,9 +14,9 @@ export const Overlay = () => {
 
   return (
     <div className="overlay">
-      <Intro visible={progress < INTRO_UNTIL} />
+      <Intro visible={progress < introUntil} />
       {activeRoom && <InstructorCard instructor={instructorById(activeRoom)} />}
-      <Outro visible={progress > OUTRO_FROM} />
+      <Outro visible={progress > outroFrom} />
       <ProgressRail progress={progress} activeRoom={activeRoom} />
     </div>
   )

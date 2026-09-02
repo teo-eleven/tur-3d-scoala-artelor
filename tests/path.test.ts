@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { Vector3 } from 'three'
 import { ROOM_RANGES, roomAtProgress, sampleCamera } from '../src/camera/path'
-import { INSTRUCTORS } from '../src/data/instructors'
+import { INSTRUCTORS } from '../config'
 
 describe('traseul camerei', () => {
   test('fiecare indrumator are un interval pe traseu', () => {
@@ -14,9 +14,11 @@ describe('traseul camerei', () => {
   test('intervalele salilor nu se suprapun si sunt in ordinea vizitarii', () => {
     const ordered = [...ROOM_RANGES].sort((a, b) => a.start - b.start)
 
-    for (let i = 1; i < ordered.length; i += 1) {
-      expect(ordered[i].start).toBeGreaterThan(ordered[i - 1].end)
-    }
+    ordered.forEach((range, index) => {
+      const previous = ordered[index - 1]
+      if (!previous) return
+      expect(range.start).toBeGreaterThan(previous.end)
+    })
     expect(ordered.map((range) => range.id)).toEqual(['lidia', 'teodora', 'marian', 'sergiu'])
   })
 

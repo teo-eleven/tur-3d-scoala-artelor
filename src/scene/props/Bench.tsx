@@ -1,4 +1,4 @@
-import { PALETTE } from '../materials'
+import { PALETTE } from '../../../config'
 
 interface BenchProps {
   readonly position: readonly [number, number, number]
@@ -7,7 +7,7 @@ interface BenchProps {
 
 /** Taburet / bancheta de pian. */
 export const Bench = ({ position, rotationY = 0 }: BenchProps) => (
-  <group position={position as [number, number, number]} rotation={[0, rotationY, 0]}>
+  <group position={position} rotation={[0, rotationY, 0]}>
     <mesh position={[0, 0.48, 0]} castShadow>
       <boxGeometry args={[0.9, 0.08, 0.36]} />
       <meshStandardMaterial color={PALETTE.trim} roughness={0.7} />

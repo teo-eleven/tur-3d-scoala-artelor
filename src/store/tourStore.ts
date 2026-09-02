@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { RoomId } from '../data/instructors'
+import type { RoomId } from '../../config'
 import { roomAtProgress } from '../camera/path'
 
 interface TourState {

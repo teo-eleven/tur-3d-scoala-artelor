@@ -47,3 +47,29 @@ export const STAIR_FLIGHT_WIDTH = CORRIDOR_HALF_WIDTH - STAIR_FLIGHT_GAP
 export const STAIRWELL_Z_END = STAIR_Z_BOTTOM
 
 export const levelBaseY = (level: number) => level * LEVEL_HEIGHT
+
+/** Numarul de niveluri. */
+export const LEVELS = [0, 1] as const
+
+/**
+ * Fatadele: unde sunt ferestrele si intrarea, in coordonate locale ale
+ * peretelui (offset pe lungimea lui, cu 0 la mijloc).
+ */
+export const FACADE = {
+  entrance: { center: 0, width: 2.6, sill: 0, top: 2.7 },
+  southWindows: [-6.5, 6.5],
+  southWindowsUpper: [-6.5, 0, 6.5],
+  northWindows: [-7.35, 7.35],
+  northWindowsUpper: [-7.35, 0, 7.35],
+  sideWindows: [-5, -0.4, 5.5],
+} as const
+
+/** Acoperisul si terenul din jurul cladirii. */
+export const SITE = {
+  roof: { overhang: 0.8, thickness: 0.3, lift: 0.15 },
+  ground: { size: 160, y: -0.14 },
+  path: { width: 7, depth: 16, z: 14, y: -0.11 },
+} as const
+
+/** Unde e agatat tabloul indrumatorului, pe axa Z a salii. */
+export const PORTRAIT_Z = -3.2

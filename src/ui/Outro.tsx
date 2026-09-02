@@ -1,4 +1,4 @@
-import { INSTRUCTORS } from '../data/instructors'
+import { APP_CONFIG, INSTRUCTORS } from '../../config'
 
 interface OutroProps {
   readonly visible: boolean
@@ -16,7 +16,7 @@ export const Outro = ({ visible }: OutroProps) => (
         </li>
       ))}
     </ul>
-    <a className="outro__cta" href="https://scoalaartelor.ro/contact/">
+    <a className="outro__cta" href={APP_CONFIG.links.enroll}>
       Vreau să mă înscriu
     </a>
   </footer>

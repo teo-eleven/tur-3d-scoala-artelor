@@ -1,4 +1,4 @@
-import type { Instructor } from '../data/instructors'
+import type { Instructor } from '../../config'
 
 interface InstructorCardProps {
   readonly instructor: Instructor

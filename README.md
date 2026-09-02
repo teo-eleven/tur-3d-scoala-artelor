@@ -21,7 +21,7 @@ npm run dev        # http://localhost:5180
 | `npm test` | teste unitare (vitest) |
 | `npm run typecheck` | verificare de tipuri |
 | `npm run lint` | oxlint |
-| `node scripts/shots.mjs` | capturi din tur, la 12 poziții de scroll |
+| `node scripts/shots.mts` | capturi din tur, la 12 poziții de scroll |
 
 ## Cum e construit
 
@@ -31,8 +31,15 @@ alta pentru direcția privirii. Segmentele scurte dintre waypoint-uri = camera
 încetinește, de aceea în dreptul sălilor punctele sunt îndesite.
 
 ```
-src/
-├─ data/         layout.ts (dimensiuni), instructors.ts (cine, unde), waypoints.ts (traseul)
+config/          TOATE setările — codul nu are valori fixe
+├─ app.config.ts         porturi, scroll, cameră, calitate, efecte, texte, capturi
+├─ building.config.ts    dimensiunile clădirii, fațadele, casa scării
+├─ scene.config.ts       paleta, luminile, dimensiunile obiectelor
+├─ instructors.config.ts cine, în ce sală, poză, culoare, bio
+├─ tour.config.ts        waypoint-urile traseului
+└─ index.ts              punctul unic de import
+
+src/             doar cod
 ├─ camera/       path.ts (curbele + intervalele sălilor), CameraRig.tsx
 ├─ scene/        Shell, Corridor, Stairs, Room + geometry/ + props/
 ├─ scroll/       scrollController.ts (Lenis, progres, sari-la-sala)
@@ -40,15 +47,24 @@ src/
 └─ store/        tourStore.ts (sala activă)
 ```
 
+**Regula:** nicio setare nu stă în cod. Tot ce se poate regla e în `config/`, iar
+`src/` importă doar din `config`. Același fișier îl citesc și `vite.config.ts`
+(porturi, meta din `index.html`) și `scripts/shots.mts` (Node 24 importă `.ts` nativ).
+
 ## Ce se schimbă și de unde
 
-| Vrei să schimbi | Fișier |
+| Vrei să schimbi | Unde |
 |---|---|
-| cine e în ce sală, bio, poză, culoare | `src/data/instructors.ts` |
-| traseul camerei / opririle | `src/data/waypoints.ts` |
-| dimensiunile clădirii | `src/data/layout.ts` |
-| culorile materialelor | `src/scene/materials.ts` |
-| lungimea turului (cât scroll) | `SCROLL_LENGTH_VH` din `src/scroll/scrollController.ts` |
+| cine e în ce sală, bio, poză, culoare | `config/instructors.config.ts` |
+| traseul camerei / opririle | `config/tour.config.ts` |
+| dimensiunile clădirii, ferestrele, scara | `config/building.config.ts` |
+| culori, lumini, mobilier | `config/scene.config.ts` |
+| porturi, titlu și meta, linkuri | `config/app.config.ts` → `site`, `server`, `links` |
+| lungimea turului, fluiditatea scroll-ului | `config/app.config.ts` → `scroll` |
+| unghiul camerei, cât de lin urmărește scroll-ul | `config/app.config.ts` → `camera` |
+| ceață, bloom, vignette, culoarea cerului | `config/app.config.ts` → `effects` |
+| pragul pentru mobil / calitate redusă | `config/app.config.ts` → `quality` |
+| pozițiile din care se fac capturile | `config/app.config.ts` → `capture.stops` |
 
 ## Materiale de referință
 

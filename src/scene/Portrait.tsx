@@ -1,10 +1,8 @@
 import { useTexture } from '@react-three/drei'
-import { PALETTE } from './materials'
+import { LIGHTING, PALETTE, PROPS } from '../../config'
 
-const FRAME_WIDTH = 1.6
-const FRAME_HEIGHT = 2.1
-const FRAME_DEPTH = 0.08
-const BORDER = 0.09
+const { width, height, depth, border } = PROPS.portrait
+const { portrait: portraitLight } = LIGHTING
 
 interface PortraitProps {
   readonly photo: string
@@ -19,20 +17,20 @@ export const Portrait = ({ photo, position, rotationY, accent }: PortraitProps) 
   const texture = useTexture(photo)
 
   return (
-    <group position={position as [number, number, number]} rotation={[0, rotationY, 0]}>
+    <group position={position} rotation={[0, rotationY, 0]}>
       <mesh castShadow>
-        <boxGeometry args={[FRAME_WIDTH, FRAME_HEIGHT, FRAME_DEPTH]} />
+        <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial color={PALETTE.frame} roughness={0.6} />
       </mesh>
-      <mesh position={[0, 0, FRAME_DEPTH / 2 + 0.002]}>
-        <planeGeometry args={[FRAME_WIDTH - BORDER * 2, FRAME_HEIGHT - BORDER * 2]} />
+      <mesh position={[0, 0, depth / 2 + 0.002]}>
+        <planeGeometry args={[width - border * 2, height - border * 2]} />
         <meshStandardMaterial map={texture} roughness={0.75} />
       </mesh>
       <pointLight
-        position={[0, FRAME_HEIGHT / 2 + 0.5, 0.9]}
+        position={[0, height / 2 + portraitLight.offsetAbove, portraitLight.offsetFront]}
         color={accent}
-        intensity={6}
-        distance={5}
+        intensity={portraitLight.intensity}
+        distance={portraitLight.distance}
         decay={2}
       />
     </group>
